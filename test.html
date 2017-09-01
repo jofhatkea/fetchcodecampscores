@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test integration with FetchStudent</title>
+    <style>
+        .hidden {display:none}
+        #app {
+            display:grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-gap: 10px;
+            padding: 2px;
+        }
+        .student {
+            border: 1px solid #808080;
+        }
+        .student h2 {
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="app">
+
+    </div>
+    <template id="student">
+        <article class="student">
+            <h1></h1>
+            <h2>Total: <span></span></h2>
+            <button>more</button>
+            <ul class="stats hidden">
+
+            </ul>
+        </article>
+    </template>
+    <script src="classes/FetchStudent.js"></script>
+    <script src="data/challenges.js"></script>
+    <script src="classes/FetchGoogleJSON.js"></script>
+    <script src="classes/PrettifyGoogleJSON.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/TweenMax.min.js"></script>
+    <script>
+        
+        let fgd = new FetchGoogleJSON("16gLcoH7n58y9X9afCWzeB84VURmTznS6PByJwwS4BJE", listLoaded);
+        let timer=null;
+        function listLoaded(data){
+            number = data.length;
+            data.forEach(student=>{
+                new FetchStudent(student, challenges, showStudent);
+            });
+        }
+
+        function showStudent(student, scores){
+            console.log(student)
+            let template = document.querySelector("#student").content;
+            let clone = template.cloneNode(true);
+            clone.querySelector('.student').dataset.fullname=student.fullname;
+            clone.querySelector('h1').textContent=student.fullname + " @"+student.codecamphandle;
+            let total = 0;
+            for(let k in scores){
+                total+=scores[k];
+                let li = document.createElement('li');
+                li.textContent = k + ": " + scores[k];
+                clone.querySelector('.stats').appendChild(li);
+            }
+            clone.querySelector('h2 span').textContent=total;
+            clone.querySelector('button').addEventListener('click',(e)=>e.target.nextElementSibling.classList.toggle('hidden'))
+            document.querySelector('#app').appendChild(clone);
+            clearTimeout(timer);
+            timer = setTimeout(sort, 2000);
+        }
+
+        function sort(){
+            let all = [...document.querySelectorAll('.student')];
+            all.sort(function(a, b) {
+                var nameA = a.dataset.fullname.toUpperCase(); // ignore upper and lowercase
+                var nameB = b.dataset.fullname.toUpperCase(); // ignore upper and lowercase
+                if (nameA < nameB) {
+                    return -1;
+                }
+                if (nameA > nameB) {
+                    return 1;
+                }
+
+                // names must be equal
+                return 0;
+            });
+            TweenMax.to('.student', 1, {x:-2500, y: -2000, onComplete:myFunction});
+            console.log(all)
+            function myFunction(e){
+                document.querySelector("#app").innerHTML="";
+                all.forEach(s=>{
+                    document.querySelector('#app').appendChild(s);
+
+                    setTimeout(function(){
+                        TweenMax.to(s, 0.5, {x:0, y: 0});
+                    }, 500)
+
+                })
+            }
+            /*all.forEach(s=>{
+                document.querySelector('#app').appendChild(s);
+                TweenMax.from(s, 0.5, {x:-2500, y: -2000});
+            })*/
+        }
+
+    </script>
+</body>
+</html>
