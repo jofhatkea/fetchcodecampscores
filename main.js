@@ -42,13 +42,28 @@ function showScores(data){
   console.log("showScores", data)
   let highest = data[0].score;
   let lowest = data[data.length-1].score;
-  let factor = highest/100;
-  let draw = SVG('mysvg');
-  let lastX=50;
-  let lastY=50;
-  let padding=5;
+  
+  let factor = highest/500;
+  //let draw = SVG('mysvg');
+  //let lastX=50;
+  //let lastY=50;
+  //let padding=5;
 
-  data.forEach(d=>{
+    data.forEach(d=>{
+        let thisWidth=d.score/factor;
+        console.log(d.score, factor)
+        let h2 = document.createElement('h2');
+        h2.textContent=d.fullName + "@"+d.handle + " " + d.score;
+        document.querySelector('#app').appendChild(h2);
+        let div = document.createElement('div');
+        div.style.backgroundColor="red";
+        div.style.width=(d.score/factor)+"px";
+        div.style.height="20px";
+        document.querySelector('#app').appendChild(div);
+  })
+    
+    
+  /*data.forEach(d=>{
     let thisWidth=d.score/factor;
     console.log(d.score, factor)
     let rect = draw.circle(thisWidth).attr(
@@ -58,6 +73,10 @@ function showScores(data){
         cy:lastY
       });
       lastX+=thisWidth
-  })
-
+  })*/
+    TweenMax.staggerFrom('h2, div', 1, {
+        x: -1000,
+        y: -100,
+        ease: Elastic.easeOut.config(1, 0.3)
+    }, 0.1)
 }
