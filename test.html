@@ -40,6 +40,8 @@
         let fgd = new FetchGoogleJSON("16gLcoH7n58y9X9afCWzeB84VURmTznS6PByJwwS4BJE", listLoaded);
         let timer=null;
         let students = [];
+        let template = document.querySelector("#student").content;
+
         function listLoaded(data){
             number = data.length;
             data.forEach(student=>{
@@ -48,7 +50,6 @@
         }
 
         function showStudent(student, scores){
-            let template = document.querySelector("#student").content;
             let clone = template.cloneNode(true);
             let studentElem = clone.querySelector('.student');
             studentElem.dataset.fullname=student.fullname;
@@ -74,7 +75,6 @@
             clone.querySelector('h2 span').textContent=total;
             studentElem.dataset.total=total;
             clone.querySelector('button').addEventListener('click',(e)=>e.target.nextElementSibling.classList.toggle('hidden'))
-            //document.querySelector('#app').appendChild(clone);
             students.push(studentElem);
             clearTimeout(timer);
             timer = setTimeout(sort, 2000);
@@ -83,13 +83,10 @@
         function sort(){
             document.querySelector("#loader").classList.add("hidden");
             document.querySelector(".borrowed").classList.add("hidden");
-            //let all = [...document.querySelectorAll('.student')];
             students.sort(sortNames);
             setupListeners();
             students.forEach(s=>{
-                //s.classList.add("hidden");
                 document.querySelector("#app").appendChild(s);
-                //let x = TweenMax.fromTo(s, 1.5, {x:0, y: -2000}, {x:0, y:0, display:'block'});
             });
         }
         function sortNames(a,b){
@@ -104,33 +101,42 @@
             return 0;
         }
         function setupListeners(){
-            document.querySelectorAll('button[data-sort]').forEach(b=>{//TODO, targeter også buttons in students, kun dem med sort attribut
+            document.querySelectorAll('button[data-sort]').forEach(b=>{
                 b.addEventListener('click', (e)=>{
                     let sort = e.target.dataset.sort;
-                    let sorttype= e.target.dataset.sorttype;
-
+                    let sorttype = e.target.dataset.sorttype;
                     let all = [...document.querySelectorAll('.student')];
                     if(sorttype==="number"){
-                        all.sort((a,b)=>b.dataset[sort] - a.dataset[sort]);
+                        all.sort((a,b)=>{
+                            let res = b.dataset[sort] - a.dataset[sort];
+                            if(!isNaN(res)){
+                                return res;
+                            }
+                            if(!a.dataset[sort] && !b.dataset[sort]){
+                                return 0;
+                            } else if(!a.dataset[sort]){
+                                return 1;
+                            }
+                            return -1;
+                        });
                     } else {
                         all.sort(sortNames);
                     }
 
                     all.forEach((s,i)=>{
-                        console.log(s.dataset[sort])
                         let row = Math.floor(i/3);//not very responsive
-                        let remainder = i % 3;
-                        let mod = window.innerWidth / 3;
+                        let remainder = i % 3;//same problem
+                        let mod = window.innerWidth / 3;//and again, tap into mediaquery
                         let x = TweenMax.to(s, 1.5, {x:remainder * mod + 10 - s.offsetLeft, y: row*210+29-s.offsetTop});
-                    })
+                    });
                     setTimeout(()=>{
                         all.forEach(a=>{
                             a.style="";
-                            document.querySelector("#app").appendChild(a)
+                            document.querySelector("#app").appendChild(a);
                         })
                     }, 1600);
-                })
-            })
+                });
+            });
         }
     </script>
 </body>
