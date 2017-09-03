@@ -66,6 +66,7 @@ window.addEventListener('load', function(){
         return 0;
     }
     function setupListeners(){
+        let app = document.querySelector("#app");
         document.querySelectorAll('button[data-sort]').forEach(b=>{
             b.addEventListener('click', (e)=>{
                 let sort = e.target.dataset.sort;
@@ -87,17 +88,18 @@ window.addEventListener('load', function(){
                 } else {
                     all.sort(sortNames);
                 }
-
+                let columns = window.getComputedStyle(app).gridTemplateColumns.split(" ").length;
+                console.log(columns)
                 all.forEach((s,i)=>{
-                    let row = Math.floor(i/3);//not very responsive
-                    let remainder = i % 3;//same problem
-                    let mod = window.innerWidth / 3;//and again, tap into mediaquery
+                    let row = Math.floor(i/columns);
+                    let remainder = i % columns;
+                    let mod = window.innerWidth / columns;//and again, tap into mediaquery
                     let x = TweenMax.to(s, 1.5, {x:remainder * mod + 10 - s.offsetLeft, y: row*210+29-s.offsetTop});
                 });
                 setTimeout(()=>{
                     all.forEach(a=>{
                         a.style="";
-                        document.querySelector("#app").appendChild(a);
+                        app.appendChild(a);
                     })
                 }, 1600);
             });
