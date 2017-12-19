@@ -8,13 +8,17 @@ class FetchStudent {
         this.node.style.display="none";
         this.node.id=this.unique;
         this.scores = {};
-        document.body.appendChild(this.node);
+        this.counter=0;
+        //document.body.appendChild(this.node);
 
         fetch(`https://www.freecodecamp.org/${this.student.codecamphandle}`)
             .then(r=>r.text())
             .then(data=>this.parse(data));
     }
     parse(data){
+        
+        
+        
         this.node.innerHTML=data;
         let topics = [...this.node.querySelectorAll(".col-xs-5.hidden-xs")];
         topics.forEach(top=>{
@@ -28,8 +32,9 @@ class FetchStudent {
                 }
             }
         });
-        document.body.removeChild(this.node);
+        //document.body.removeChild(this.node);
         this.callback(this.student, this.scores);
+    
     }
     guid() {
         function s4() {
