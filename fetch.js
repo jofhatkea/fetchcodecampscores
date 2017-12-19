@@ -26,7 +26,7 @@ class App {
 
 	fetchStudent(s){
     let re = /\[ (\d+) \]/ig;
-    fetch(`https://www.freecodecamp.com/${s.handle}`)
+    fetch(`https://www.freecodecamp.org/${s.handle}`)
       .then(e=>e.text())
       .then(data=>{
         console.log("got data from fcc", this)

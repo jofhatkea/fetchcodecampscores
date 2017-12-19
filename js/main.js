@@ -3,7 +3,7 @@
  */
 window.addEventListener('load', function(){
     "use strict";
-    let fgd = new FetchGoogleJSON("16gLcoH7n58y9X9afCWzeB84VURmTznS6PByJwwS4BJE", listLoaded);
+    let fgd = new FetchGoogleJSON("1zPuyzZbgp8ANT0XEu4wrzF5HiZ0SXzYN9wstTs5dmF8", listLoaded);
     let timer=null;
     let students = [];
     let template = document.querySelector("#student").content;
@@ -39,7 +39,7 @@ window.addEventListener('load', function(){
         }
         clone.querySelector("h2 span").textContent = total;
         studentElem.dataset.total = total;
-        clone.querySelector("button").addEventListener("click",(e)=>e.target.nextElementSibling.classList.toggle('hidden'))
+        //clone.querySelector("button").addEventListener("click",(e)=>e.target.nextElementSibling.classList.toggle('hidden'))
         students.push(studentElem);
         clearTimeout(timer);
         timer = setTimeout(sort, 2000);
