@@ -1,33 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Fetch code camp scores</title>
-  <style media="screen">
-    svg {
-      background: lightblue;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Test integration with FetchStudent</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A playground for my work at KEA, checking student progress on Freecodecamp.com" />
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="favicon.ico">
 </head>
 <body>
-  <h1>Fetch code camp scores</h1>
-  <label>google sheet id
-    <input type="text" id="input">
-  </label>
-  <button id="inputbutton">Load</button>
-  <label>History
-    <select id="history"></select>
-  </label>
-  <div id="app">
-    <!--<svg id="mysvg" width="1000" height="1000">
+    <div id="loader">
+        <div id="box"></div>
+        <div id="hill"></div>
+    </div>
+    <p class="borrowed">Preloader by <a href="https://codepen.io/pawelqcm/">Pawel</a></p>
 
-    </svg>-->
-  </div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/TweenMax.min.js"></script>
-  <script src="svg.min.js"></script>
-  <script src="fetch.js"></script>
-  <script src="main.js"></script>
+    <div id="sorting">
+        <button data-sort="total" data-sorttype="number">Total</button>
+        <button data-sort="fullname" data-sorttype="string">Full name</button>
+    </div>
+
+    <div id="app"></div>
+
+    <template id="student">
+        <article class="student">
+            <h1></h1>
+            <h2>Total: <span></span></h2>
+            
+            <ul class="stats">
+            </ul>
+        </article>
+    </template>
+
+    <script src="classes/FetchStudent.js"></script>
+    <script src="data/challenges.js"></script>
+    <script src="classes/FetchGoogleJSON.js"></script>
+    <script src="classes/PrettifyGoogleJSON.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/TweenMax.min.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>

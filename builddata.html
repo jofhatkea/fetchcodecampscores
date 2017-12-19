@@ -41,41 +41,7 @@
             
             let pre =document.createElement('pre');
             pre.innerHTML = output;
-            document.body.appendChild(pre)
-            /*let blocks = [...document.querySelectorAll('.certBlock')];
-            blocks.forEach(block=>{
-                let headers = [...block.querySelectorAll('.no-link-underline')];
-                headers.forEach(header=>{
-                    let h3 = header.nextSibling.textContent;
-                    let topics = header.querySelectorAll('a[target]');
-                    console.log(header)
-                })
-                //console.log(headers[0].nextSibling.textContent)
-            })*/
-            /*
-            let tables = [...document.querySelectorAll('.table')];
-            let json = {};
-            tables.forEach(t=>{
-                let header = t.querySelector('th.col-xs-5').textContent;
-                json[header]=[];
-                let topics = [...t.querySelectorAll('.col-xs-5.hidden-xs')];
-                topics.forEach(top=>{
-                    json[header].push(top.textContent);
-                })
-            });
-            let o={}
-            let app = document.createElement('pre');
-            
-            json.Challenges.forEach(c=>{
-                app.textContent+=c+"\n";
-            })
-            document.body.appendChild(app)
-            console.log(json);
-            
-            
-            div.innerHTML="";
-            console.log(x)*/
-            
+            document.body.appendChild(pre);
         }
     </script>
 </body>
