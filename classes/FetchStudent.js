@@ -5,11 +5,9 @@ class FetchStudent {
         this.callback=callback;
         this.unique = this.guid();
         this.node = document.createElement("div");
-        this.node.style.display="none";
         this.node.id=this.unique;
         this.scores = {};
         this.counter=0;
-        //document.body.appendChild(this.node);
 
         fetch(`https://www.freecodecamp.org/${this.student.codecamphandle}`)
             .then(r=>r.text())
@@ -23,7 +21,6 @@ class FetchStudent {
         let topics = [...this.node.querySelectorAll(".col-xs-5.hidden-xs")];
         topics.forEach(top=>{
             for (let key in this.challenges) {
-                //console.log(this.challenges[key])
                 if(this.challenges[key].indexOf(top.textContent)>-1){
                     if(!this.scores[key]){
                         this.scores[key]=0;
@@ -32,7 +29,6 @@ class FetchStudent {
                 }
             }
         });
-        //document.body.removeChild(this.node);
         this.callback(this.student, this.scores);
     
     }
